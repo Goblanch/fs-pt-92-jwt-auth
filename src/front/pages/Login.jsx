@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Singup = () => {
+const Login = () => {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -20,7 +20,7 @@ const Singup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/register`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -30,22 +30,22 @@ const Singup = () => {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                setError(errorData.msg || "Error al registrar el usuario");
+                setError(errorData.msg || "Error al iniciar sesión");
                 return;
             }
 
             const data = await response.json();
-            console.log("Usuario registrado:", data);
-            navigate("/login"); // Redirige al usuario a la página de inicio de sesión
+            localStorage.setItem("token", data.token);
+            navigate("/private");
         } catch (err) {
             console.error("Error:", err);
-            setError("Error");
+            setError("Error al conectar con el servidor");
         }
     };
 
     return (
         <div className="container mt-5">
-            <h2>Registro</h2>
+            <h2>Iniciar Sesión</h2>
             {error && <div className="alert alert-danger">{error}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
@@ -77,11 +77,11 @@ const Singup = () => {
                     />
                 </div>
                 <button type="submit" className="btn btn-primary">
-                    Registrarse
+                    Iniciar Sesión
                 </button>
             </form>
         </div>
     );
 };
 
-export default Singup;
+export default Login;

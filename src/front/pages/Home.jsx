@@ -1,10 +1,12 @@
 import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
 
 	const { store, dispatch } = useGlobalReducer()
+	const navigate = useNavigate()
 
 	const loadMessage = async () => {
 		try {
@@ -47,8 +49,29 @@ export const Home = () => {
 					</span>
 				)}
 			</div>
+
+			<div className="d-flex justify-content-center mt-4">
+				<button
+					className="btn btn-primary mx-2"
+					onClick={() => navigate("/signup")}
+				>
+					Sign Up
+				</button>
+				<button
+					className="btn btn-secondary mx-2"
+					onClick={() => navigate("/login")}
+				>
+					Log In
+				</button>
+				<button
+					className="btn btn-secondary mx-2"
+					onClick={() => navigate("/private")}
+				>
+					Private
+				</button>
+			</div>
 		</div>
 
-		
+
 	);
 }; 
